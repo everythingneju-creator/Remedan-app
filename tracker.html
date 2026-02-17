@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0A0E27">
+    <title>Ibadah Tracker - Ramadan 1447</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/pages.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 32px 24px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-subtle);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--glow-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .modal-icon i {
+            font-size: 24px;
+            color: var(--accent-gold);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .modal-body {
+            margin-bottom: 24px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-subtle);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: var(--font-english);
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 4px var(--glow-gold);
+        }
+
+        .input-field::placeholder {
+            color: var(--text-muted);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            font-family: var(--font-english);
+        }
+
+        .modal-btn-cancel {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .modal-btn-cancel:hover {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .modal-btn-confirm {
+            background: linear-gradient(135deg, #D4AF37 0%, #B8963C 100%);
+            color: #0A0E27;
+        }
+
+        body.light-theme .modal-btn-confirm {
+            color: white;
+        }
+
+        .modal-btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
+        }
+
+        .modal-btn-confirm:active {
+            transform: translateY(0);
+        }
+
+        .modal-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Success Animation */
+        @keyframes successPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .success-animation {
+            animation: successPulse 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Theme Toggle -->
+    <button id="themeToggle" class="theme-toggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Main Content -->
+    <div class="page-container">
+        
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1 class="page-title">Today's Ibadah</h1>
+            <p class="page-subtitle" id="daySubtitle">Day 1 of Ramadan</p>
+        </header>
+
+        <!-- Progress Overview -->
+        <div class="progress-overview">
+            <div class="circular-progress">
+                <svg class="progress-ring" width="140" height="140">
+                    <circle class="progress-ring-bg" cx="70" cy="70" r="60" />
+                    <circle class="progress-ring-fill" cx="70" cy="70" r="60" id="progressCircle" />
+                </svg>
+                <div class="progress-text">
+                    <span class="progress-number" id="progressNumber">0/8</span>
+                    <span class="progress-label">Completed</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="tracker-actions">
+            <button class="action-btn" id="resetBtn">
+                <i class="fas fa-redo"></i>
+                <span>Reset Today</span>
+            </button>
+            <button class="action-btn" id="addCustomBtn">
+                <i class="fas fa-plus"></i>
+                <span>Add Task</span>
+            </button>
+        </div>
+
+        <!-- Tracker Items -->
+        <div class="tracker-items" id="trackerItems">
+            <!-- Items will be loaded by JavaScript -->
+        </div>
+
+    </div>
+
+    <!-- Add Task Modal -->
+    <div class="modal-overlay" id="addTaskModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <h2 class="modal-title">Add Custom Task</h2>
+                <p class="modal-subtitle">What would you like to track today?</p>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label class="input-label" for="taskNameInput">Task Name</label>
+                    <input 
+                        type="text" 
+                        id="taskNameInput" 
+                        class="input-field" 
+                        placeholder="e.g., Read Surah Al-Kahf"
+                        maxlength="50"
+                    >
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-cancel" id="cancelTaskBtn">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="confirmTaskBtn">Add Task</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="tracker.html" class="nav-item active">
+            <i class="fas fa-tasks"></i>
+            <span>Ibadah</span>
+        </a>
+        <a href="message.html" class="nav-item">
+            <i class="fas fa-heart"></i>
+            <span>Message</span>
+        </a>
+        <a href="about.html" class="nav-item">
+            <i class="fas fa-info-circle"></i>
+            <span>About</span>
+        </a>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="data/ayahs.js"></script>
+    <script src="data/duas.js"></script>
+    <script src="data/messages.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/daily-engine.js"></script>
+    <script src="js/tracker.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/app.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            initTrackerPage();
+            highlightActiveNav();
+            setupModal();
+            
+            const dayInfo = getCurrentRamadanDay();
+            document.getElementById('daySubtitle').textContent = dayInfo.dayText;
+        });
+
+        function initTrackerPage() {
+            const progress = getTodayProgress();
+            renderTrackerItems(progress);
+            updateProgressCircle(progress);
+            
+            // Reset button
+            const resetBtn = document.getElementById('resetBtn');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', function() {
+                    if (confirm('Reset all tasks for today?')) {
+                        const newProgress = resetTodayTracker();
+                        renderTrackerItems(newProgress);
+                        updateProgressCircle(newProgress);
+                        showToast('Tracker reset for today');
+                    }
+                });
+            }
+            
+            // Add custom task button
+            const addCustomBtn = document.getElementById('addCustomBtn');
+            if (addCustomBtn) {
+                addCustomBtn.addEventListener('click', function() {
+                    openAddTaskModal();
+                });
+            }
+        }
+
+        function setupModal() {
+            const modal = document.getElementById('addTaskModal');
+            const input = document.getElementById('taskNameInput');
+            const cancelBtn = document.getElementById('cancelTaskBtn');
+            const confirmBtn = document.getElementById('confirmTaskBtn');
+
+            // Cancel button
+            cancelBtn.addEventListener('click', function() {
+                closeAddTaskModal();
+            });
+
+            // Confirm button
+            confirmBtn.addEventListener('click', function() {
+                const taskName = input.value.trim();
+                if (taskName) {
+                    addCustomTask(taskName);
+                    const newProgress = getTodayProgress();
+                    renderTrackerItems(newProgress);
+                    updateProgressCircle(newProgress);
+                    closeAddTaskModal();
+                    showToast('✨ Task added successfully!');
+                    playSound('completion');
+                } else {
+                    input.focus();
+                    input.style.borderColor = '#ff4444';
+                    setTimeout(() => {
+                        input.style.borderColor = '';
+                    }, 500);
+                }
+            });
+
+            // Enter key to confirm
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    confirmBtn.click();
+                }
+            });
+
+            // Click outside to close
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeAddTaskModal();
+                }
+            });
+
+            // Escape key to close
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    closeAddTaskModal();
+                }
+            });
+        }
+
+        function openAddTaskModal() {
+            const modal = document.getElementById('addTaskModal');
+            const input = document.getElementById('taskNameInput');
+            
+            modal.classList.add('active');
+            input.value = '';
+            input.focus();
+            playSound('click');
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAddTaskModal() {
+            const modal = document.getElementById('addTaskModal');
+            modal.classList.remove('active');
+            playSound('click');
+            
+            // Restore body scroll
+            document.body.style.overflow = '';
+        }
+
+        function renderTrackerItems(progress) {
+            const container = document.getElementById('trackerItems');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            // Sort items by order
+            const sortedItems = progress.items.sort((a, b) => a.order - b.order);
+            
+            sortedItems.forEach(item => {
+                const itemEl = document.createElement('div');
+                itemEl.className = `tracker-item ${item.completed ? 'completed' : ''}`;
+                
+                const percentage = item.completed ? 100 : 0;
+                
+                itemEl.innerHTML = `
+                    <div class="tracker-checkbox ${item.completed ? 'checked' : ''}" data-id="${item.id}">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="tracker-label">${item.name}</div>
+                    <div class="item-progress-bar">
+                        <div class="item-progress-fill" style="width: ${percentage}%"></div>
+                    </div>
+                    ${item.type === 'custom' ? `<button class="delete-item-btn" data-id="${item.customId}"><i class="fas fa-times"></i></button>` : ''}
+                `;
+                
+                container.appendChild(itemEl);
+                
+                // Add click listener to checkbox
+                const checkbox = itemEl.querySelector('.tracker-checkbox');
+                checkbox.addEventListener('click', function() {
+                    const newProgress = toggleTrackerItem(item.id);
+                    if (newProgress) {
+                        renderTrackerItems(newProgress);
+                        updateProgressCircle(newProgress);
+                    }
+                });
+                
+                // Add delete listener for custom tasks
+                if (item.type === 'custom') {
+                    const deleteBtn = itemEl.querySelector('.delete-item-btn');
+                    deleteBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        if (confirm('Delete this task?')) {
+                            deleteCustomTask(item.customId);
+                            const newProgress = getTodayProgress();
+                            renderTrackerItems(newProgress);
+                            updateProgressCircle(newProgress);
+                            showToast('Task deleted');
+                        }
+                    });
+                }
+            });
+        }
+
+        function updateProgressCircle(progress) {
+            const total = progress.items.length;
+            const completed = progress.items.filter(item => item.completed).length;
+            const percentage = total > 0 ? (completed / total) * 100 : 0;
+            
+            // Update circle
+            const circle = document.getElementById('progressCircle');
+            if (circle) {
+                const circumference = 2 * Math.PI * 60; // radius = 60
+                const offset = circumference - (percentage / 100) * circumference;
+                circle.style.strokeDashoffset = offset;
+            }
+            
+            // Update text
+            const numberEl = document.getElementById('progressNumber');
+            if (numberEl) {
+                numberEl.textContent = `${completed}/${total}`;
+                
+                // Success animation when all completed
+                if (completed === total && total > 0) {
+                    numberEl.parentElement.classList.add('success-animation');
+                    setTimeout(() => {
+                        numberEl.parentElement.classList.remove('success-animation');
+                    }, 500);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

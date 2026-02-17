@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0A0E27">
+    <title>Daily Dua - Ramadan 1447</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/pages.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <!-- Theme Toggle -->
+    <button id="themeToggle" class="theme-toggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Main Content -->
+    <div class="page-container">
+        
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1 class="page-title">Daily Duas</h1>
+            <p class="page-subtitle" id="daySubtitle">Day 1 of Ramadan</p>
+        </header>
+
+        <!-- Duas Container -->
+        <div class="duas-container" id="duasContainer">
+            <!-- Duas will be loaded here by JavaScript -->
+        </div>
+
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="tracker.html" class="nav-item">
+            <i class="fas fa-tasks"></i>
+            <span>Ibadah</span>
+        </a>
+        <a href="message.html" class="nav-item">
+            <i class="fas fa-heart"></i>
+            <span>Message</span>
+        </a>
+        <a href="about.html" class="nav-item">
+            <i class="fas fa-info-circle"></i>
+            <span>About</span>
+        </a>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="data/ayahs.js"></script>
+    <script src="data/duas.js"></script>
+    <script src="data/messages.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/daily-engine.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/app.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            loadTodayDuas();
+            highlightActiveNav();
+        });
+
+        function loadTodayDuas() {
+            const dayInfo = getCurrentRamadanDay();
+            const duasData = getTodayDua();
+            
+            document.getElementById('daySubtitle').textContent = dayInfo.dayText;
+            
+            const container = document.getElementById('duasContainer');
+            container.innerHTML = '';
+            
+            if (!duasData) return;
+            
+            // Main Dua
+            if (duasData.main) {
+                const mainCard = createDuaCard(duasData.main, 'Main Dua', true);
+                container.appendChild(mainCard);
+            }
+            
+            // Short Duas
+            if (duasData.short && duasData.short.length > 0) {
+                duasData.short.forEach((dua, index) => {
+                    const card = createDuaCard(dua, `Dua ${index + 2}`, false);
+                    container.appendChild(card);
+                });
+            }
+        }
+
+        function createDuaCard(dua, label, isMain) {
+            const card = document.createElement('div');
+            card.className = isMain ? 'dua-card main-dua' : 'dua-card';
+            
+            card.innerHTML = `
+                <div class="dua-badge">${label}</div>
+                <div class="dua-arabic">${dua.arabic}</div>
+                ${dua.transliteration ? `<div class="dua-transliteration">${dua.transliteration}</div>` : ''}
+                <div class="dua-translation">${dua.translation}</div>
+                ${dua.reference ? `<div class="dua-reference">${dua.reference}</div>` : ''}
+            `;
+            
+            return card;
+        }
+    </script>
+</body>
+</html>

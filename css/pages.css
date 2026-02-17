@@ -1,0 +1,835 @@
+/* ================================
+   ENTERING PAGE
+   ================================ */
+
+.entering-page {
+    background: linear-gradient(180deg, #0A0E27 0%, #1A1F45 100%);
+    overflow: hidden;
+}
+
+/* Stars Background */
+.stars-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 3s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* Entering Content */
+.entering-content {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+/* Moon */
+.moon-container {
+    margin-bottom: 40px;
+}
+
+.moon {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    box-shadow: 0 0 60px rgba(212, 175, 55, 0.3),
+                inset -20px -10px 0 rgba(0, 0, 0, 0.1);
+    position: relative;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+/* Bismillah */
+.bismillah {
+    font-size: 20px;
+    color: var(--text-primary);
+    letter-spacing: 2px;
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+/* Countdown Section */
+.countdown-section {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.countdown-title {
+    font-size: 22px;
+    color: var(--text-primary);
+    font-weight: 300;
+    margin-bottom: 32px;
+}
+
+.countdown-timer {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.time-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(20, 27, 61, 0.6);
+    padding: 16px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+    min-width: 70px;
+}
+
+.time-value {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--accent-gold);
+    font-family: var(--font-english);
+}
+
+.time-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Welcome Section */
+.welcome-section {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.welcome-text {
+    font-size: 18px;
+    color: var(--text-secondary);
+    font-weight: 300;
+}
+
+/* Enter Button */
+.enter-button {
+    width: 200px;
+    height: 52px;
+    background: linear-gradient(135deg, #D4AF37 0%, #B8963C 100%);
+    border-radius: 26px;
+    color: #0A0E27;
+    font-size: 16px;
+    font-weight: 500;
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
+    transition: all var(--transition-fast);
+}
+
+.enter-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 24px rgba(212, 175, 55, 0.6);
+}
+
+.enter-button:active {
+    transform: scale(0.98);
+}
+
+/* ================================
+   HOME PAGE
+   ================================ */
+
+/* Hijri Date */
+.hijri-date {
+    font-family: var(--font-arabic);
+    font-size: 22px;
+    color: var(--accent-gold);
+    margin-bottom: 4px;
+}
+
+.gregorian-date {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.ramadan-day {
+    font-size: 16px;
+    color: var(--accent-teal);
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.welcome-message {
+    font-family: var(--font-arabic);
+    font-size: 16px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.welcome-message-en {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* Prayer Times Widget */
+.prayer-times-widget {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-subtle);
+}
+
+.widget-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    color: var(--accent-gold);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.widget-header i {
+    font-size: 18px;
+}
+
+.location-btn {
+    margin-left: auto;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 14px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    transition: all var(--transition-fast);
+}
+
+.location-btn:hover {
+    background: var(--glow-gold);
+    color: var(--accent-gold);
+}
+
+.prayer-times-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.prayer-time-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: rgba(212, 175, 55, 0.05);
+    border-radius: 8px;
+}
+
+.prayer-name {
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.prayer-time {
+    font-size: 14px;
+    color: var(--accent-gold);
+    font-weight: 500;
+}
+
+.prayer-time-loading {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary);
+}
+
+.location-display {
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* Preview Cards */
+.preview-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.preview-card {
+    background: var(--bg-card);
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-subtle);
+    transition: all var(--transition-medium);
+    text-decoration: none;
+    color: inherit;
+}
+
+.preview-card:hover {
+    transform: translateX(-4px);
+    box-shadow: var(--shadow-strong);
+}
+
+.card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--glow-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.card-icon i {
+    font-size: 20px;
+    color: var(--accent-gold);
+}
+
+.card-content {
+    flex: 1;
+}
+
+.card-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-preview {
+    font-size: 15px;
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+.arabic-preview {
+    font-family: var(--font-arabic);
+    direction: rtl;
+    text-align: right;
+}
+
+.card-arrow {
+    color: var(--text-secondary);
+    font-size: 16px;
+}
+
+.tracker-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.progress-text {
+    font-size: 15px;
+    color: var(--text-primary);
+}
+
+.mini-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(212, 175, 55, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.mini-progress-fill {
+    height: 100%;
+    background: var(--accent-gold);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+/* ================================
+   AYAH PAGE
+   ================================ */
+
+.ayah-card {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 36px 28px;
+    box-shadow: var(--shadow-strong);
+    border: 1px solid var(--border-subtle);
+    margin-bottom: 24px;
+}
+
+.decorative-element {
+    display: flex;
+    justify-content: center;
+    margin: 24px 0;
+}
+
+.decorative-element svg {
+    color: var(--accent-gold);
+}
+
+.ayah-arabic {
+    font-family: var(--font-arabic);
+    font-size: 26px;
+    color: var(--text-primary);
+    text-align: right;
+    direction: rtl;
+    line-height: 2.2;
+    margin-bottom: 28px;
+}
+
+.ayah-divider {
+    width: 80px;
+    height: 1px;
+    background: rgba(212, 175, 55, 0.3);
+    margin: 24px auto;
+}
+
+.ayah-transliteration {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: center;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.ayah-translation {
+    font-size: 16px;
+    color: var(--text-secondary);
+    text-align: center;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.ayah-reference {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* ================================
+   DUA PAGE
+   ================================ */
+
+.duas-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 20px;
+}
+
+.dua-card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-subtle);
+    position: relative;
+}
+
+.dua-card.main-dua {
+    border: 2px solid var(--accent-gold);
+    box-shadow: var(--shadow-strong);
+}
+
+.dua-badge {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: var(--accent-gold);
+    color: #0A0E27;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+body.light-theme .dua-badge {
+    color: white;
+}
+
+.dua-arabic {
+    font-family: var(--font-arabic);
+    font-size: 22px;
+    color: var(--text-primary);
+    text-align: right;
+    direction: rtl;
+    line-height: 2;
+    margin-bottom: 20px;
+    margin-top: 8px;
+}
+
+.dua-transliteration {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: 16px;
+    line-height: 1.7;
+}
+
+.dua-translation {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+
+.dua-reference {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* ================================
+   TRACKER PAGE
+   ================================ */
+
+.progress-overview {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    justify-content: center;
+}
+
+.circular-progress {
+    position: relative;
+    width: 140px;
+    height: 140px;
+}
+
+.progress-ring {
+    transform: rotate(-90deg);
+}
+
+.progress-ring-bg {
+    fill: none;
+    stroke: var(--glow-gold);
+    stroke-width: 8;
+}
+
+.progress-ring-fill {
+    fill: none;
+    stroke: var(--accent-gold);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 377;
+    stroke-dashoffset: 377;
+    transition: stroke-dashoffset 0.5s ease;
+    filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.5));
+}
+
+.progress-text {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.progress-number {
+    display: block;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.progress-label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+/* Tracker Actions */
+.tracker-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.action-btn {
+    flex: 1;
+    padding: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all var(--transition-fast);
+}
+
+.action-btn:hover {
+    background: var(--glow-gold);
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+}
+
+.action-btn i {
+    font-size: 16px;
+}
+
+/* Tracker Items */
+.tracker-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tracker-item {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-subtle);
+    transition: all var(--transition-fast);
+}
+
+.tracker-item.completed {
+    opacity: 0.7;
+}
+
+.tracker-checkbox {
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--accent-teal);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.tracker-checkbox.checked {
+    background: var(--accent-teal);
+    border-color: var(--accent-teal);
+}
+
+.tracker-checkbox i {
+    color: white;
+    font-size: 14px;
+    display: none;
+}
+
+.tracker-checkbox.checked i {
+    display: block;
+}
+
+.tracker-label {
+    flex: 1;
+    font-size: 16px;
+    color: var(--text-primary);
+}
+
+.tracker-item.completed .tracker-label {
+    text-decoration: line-through;
+}
+
+.item-progress-bar {
+    width: 60px;
+    height: 6px;
+    background: rgba(212, 175, 55, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.item-progress-fill {
+    height: 100%;
+    background: var(--accent-gold);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.delete-item-btn {
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 16px;
+    padding: 4px 8px;
+    opacity: 0;
+    transition: all var(--transition-fast);
+}
+
+.tracker-item:hover .delete-item-btn {
+    opacity: 1;
+}
+
+.delete-item-btn:hover {
+    color: #ff4444;
+}
+
+/* ================================
+   MESSAGE PAGE
+   ================================ */
+
+.message-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 68px);
+}
+
+.message-card {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 40px 32px;
+    box-shadow: var(--shadow-strong);
+    border: 1px solid var(--border-subtle);
+    max-width: 90%;
+    width: 400px;
+    text-align: center;
+}
+
+.message-icon {
+    font-size: 36px;
+    color: var(--accent-gold);
+    margin-bottom: 24px;
+}
+
+.message-text {
+    font-size: 18px;
+    color: var(--text-primary);
+    line-height: 1.9;
+    font-weight: 300;
+    margin-bottom: 28px;
+}
+
+.message-signature {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-style: italic;
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.message-icon-small {
+    font-size: 24px;
+    color: var(--accent-gold);
+    opacity: 0.5;
+}
+
+/* ================================
+   ABOUT PAGE
+   ================================ */
+
+.about-card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 36px 28px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-subtle);
+    text-align: center;
+}
+
+.about-icon {
+    font-size: 64px;
+    color: var(--accent-gold);
+    margin-bottom: 24px;
+}
+
+.about-title {
+    font-size: 22px;
+    color: var(--accent-gold);
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.about-message {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 32px;
+}
+
+.about-divider {
+    width: 80px;
+    height: 1px;
+    background: rgba(212, 175, 55, 0.3);
+    margin: 32px auto;
+}
+
+.about-subtitle {
+    font-size: 16px;
+    color: var(--accent-gold);
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+.about-purpose {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 32px;
+}
+
+.about-purpose p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 2;
+}
+
+.about-footer {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 32px;
+}
+
+.about-footer-small {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 8px;
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+
+@media (max-width: 360px) {
+    .page-container {
+        padding: 16px;
+        padding-bottom: 90px;
+    }
+    
+    .page-title {
+        font-size: 20px;
+    }
+    
+    .ayah-arabic {
+        font-size: 22px;
+    }
+    
+    .dua-arabic {
+        font-size: 20px;
+    }
+}

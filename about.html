@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0A0E27">
+    <title>About - Ramadan 1447</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/pages.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <!-- Theme Toggle -->
+    <button id="themeToggle" class="theme-toggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Main Content -->
+    <div class="page-container">
+        
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1 class="page-title">About This App</h1>
+        </header>
+
+        <!-- About Card -->
+        <div class="about-card">
+            <!-- Moon Icon -->
+            <div class="about-icon">
+                <i class="fas fa-moon"></i>
+            </div>
+
+            <!-- Title -->
+            <h2 class="about-title">My Sisters 💓</h2>
+
+            <!-- Main Message -->
+            <p class="about-message">
+                This app is a gift for you during the blessed month of Ramadan. May it bring you closer to Allah and fill your days with peace, reflection, and joy.
+            </p>
+
+            <!-- Divider -->
+            <div class="about-divider"></div>
+
+            <!-- Purpose Section -->
+            <h3 class="about-subtitle">Purpose</h3>
+            <div class="about-purpose">
+                <p>Daily Quranic reflection</p>
+                <p>Spiritual duas</p>
+                <p>Track your worship</p>
+                <p>Loving encouragement</p>
+            </div>
+
+            <!-- Footer Note -->
+            <p class="about-footer">Ramadan Kareem 🌙</p>
+            <p class="about-footer-small">Ramadan 1447 AH • 2026</p>
+        </div>
+
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="tracker.html" class="nav-item">
+            <i class="fas fa-tasks"></i>
+            <span>Ibadah</span>
+        </a>
+        <a href="message.html" class="nav-item">
+            <i class="fas fa-heart"></i>
+            <span>Message</span>
+        </a>
+        <a href="about.html" class="nav-item active">
+            <i class="fas fa-info-circle"></i>
+            <span>About</span>
+        </a>
+    </nav>
+
+    <!-- Scripts - CORRECT ORDER -->
+    <script src="js/storage.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/daily-engine.js"></script>
+    <script src="js/app.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            highlightActiveNav();
+        });
+    </script>
+</body>
+</html>

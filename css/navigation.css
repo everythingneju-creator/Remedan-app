@@ -1,0 +1,94 @@
+/* ================================
+   BOTTOM NAVIGATION
+   ================================ */
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 480px;
+    margin: 0 auto;
+    height: 68px;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 999;
+    backdrop-filter: blur(10px);
+    transition: background-color var(--transition-medium);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px 16px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 400;
+    transition: all var(--transition-fast);
+    position: relative;
+    flex: 1;
+    text-decoration: none;
+}
+
+.nav-item i {
+    font-size: 20px;
+    transition: all var(--transition-fast);
+}
+
+.nav-item span {
+    font-size: 11px;
+}
+
+/* Active State */
+.nav-item.active {
+    color: var(--accent-gold);
+}
+
+.nav-item.active i {
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4));
+}
+
+.nav-item.active::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    box-shadow: 0 0 8px var(--accent-gold);
+}
+
+/* Hover Effect */
+.nav-item:hover {
+    color: var(--accent-gold);
+}
+
+.nav-item:active {
+    transform: scale(0.95);
+}
+
+/* Ripple Effect on Tap */
+.nav-item::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--glow-gold);
+    transform: scale(0);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.nav-item:active::after {
+    transform: scale(1);
+    opacity: 1;
+    transition: 0s;
+}

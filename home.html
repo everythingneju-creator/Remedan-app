@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0A0E27">
+    <title>Home - Ramadan 1447</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/pages.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <!-- Theme Toggle -->
+    <button id="themeToggle" class="theme-toggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Main Content -->
+    <div class="page-container">
+        
+        <!-- Header Section -->
+        <header class="page-header">
+            <div class="hijri-date" id="hijriDate">١ رمضان ١٤٤٧</div>
+            <div class="gregorian-date" id="gregorianDate">18 February 2026</div>
+            <div class="ramadan-day" id="ramadanDay">Day 1 of 30</div>
+            <p class="welcome-message">السلام عليكم يا أختي العزيزة</p>
+            <p class="welcome-message-en">Peace be upon you, dear sister</p>
+        </header>
+
+        <!-- Prayer Times Widget -->
+        <div class="prayer-times-widget" id="prayerTimesWidget">
+            <div class="widget-header">
+                <i class="fas fa-mosque"></i>
+                <span>Prayer Times</span>
+                <button class="location-btn" id="getLocationBtn" title="Update Location">
+                    <i class="fas fa-map-marker-alt"></i>
+                </button>
+            </div>
+            <div class="prayer-times-grid" id="prayerTimesGrid">
+                <div class="prayer-time-loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Getting prayer times...</p>
+                </div>
+            </div>
+            <div class="location-display" id="locationDisplay"></div>
+        </div>
+
+        <!-- Preview Cards -->
+        <div class="preview-cards">
+            
+            <!-- Daily Ayah Preview -->
+            <a href="ayah.html" class="preview-card" id="ayahPreview">
+                <div class="card-icon">
+                    <i class="fas fa-book-quran"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-label">Today's Ayah</div>
+                    <div class="card-preview arabic-preview" id="ayahPreviewText">وَذَكِّرْ فَإِنَّ الذِّكْرَىٰ تَنفَعُ الْمُؤْمِنِينَ</div>
+                </div>
+                <div class="card-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </a>
+
+            <!-- Daily Dua Preview -->
+            <a href="dua.html" class="preview-card" id="duaPreview">
+                <div class="card-icon">
+                    <i class="fas fa-hands-praying"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-label">Today's Dua</div>
+                    <div class="card-preview arabic-preview" id="duaPreviewText">رَبَّنَا تَقَبَّلْ مِنَّا إِنَّكَ أَنتَ السَّمِيعُ الْعَلِيمُ</div>
+                </div>
+                <div class="card-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </a>
+
+            <!-- Ibadah Tracker Preview -->
+            <a href="tracker.html" class="preview-card" id="trackerPreview">
+                <div class="card-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-label">Your Progress</div>
+                    <div class="tracker-preview">
+                        <div class="progress-text" id="progressText">0/8 completed</div>
+                        <div class="mini-progress-bar">
+                            <div class="mini-progress-fill" id="miniProgressFill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="tracker.html" class="nav-item">
+            <i class="fas fa-tasks"></i>
+            <span>Ibadah</span>
+        </a>
+        <a href="message.html" class="nav-item">
+            <i class="fas fa-heart"></i>
+            <span>Message</span>
+        </a>
+        <a href="about.html" class="nav-item">
+            <i class="fas fa-info-circle"></i>
+            <span>About</span>
+        </a>
+    </nav>
+
+    <!-- Scripts - CORRECT ORDER -->
+    <script src="data/ayahs.js"></script>
+    <script src="data/duas.js"></script>
+    <script src="data/messages.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/daily-engine.js"></script>
+    <script src="js/tracker.js"></script>
+    <script src="js/prayer-times.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/app.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            updateHomeContent();
+            initPrayerTimes();
+            highlightActiveNav();
+        });
+
+        function updateHomeContent() {
+            const dayInfo = getCurrentRamadanDay();
+            
+            // Update dates
+            document.getElementById('hijriDate').textContent = dayInfo.hijriDate;
+            document.getElementById('gregorianDate').textContent = dayInfo.gregorianDate;
+            document.getElementById('ramadanDay').textContent = dayInfo.dayText;
+            
+            // Update Ayah preview
+            const todayAyah = getTodayAyah();
+            if (todayAyah) {
+                document.getElementById('ayahPreviewText').textContent = 
+                    todayAyah.arabic.substring(0, 50) + '...';
+            }
+            
+            // Update Dua preview
+            const todayDua = getTodayDua();
+            if (todayDua && todayDua.main) {
+                document.getElementById('duaPreviewText').textContent = 
+                    todayDua.main.arabic.substring(0, 50) + '...';
+            }
+            
+            // Update tracker preview
+            updateTrackerPreview();
+        }
+
+        function updateTrackerPreview() {
+            const progress = getTodayProgress();
+            const total = progress.items.length;
+            const completed = progress.items.filter(item => item.completed).length;
+            const percentage = total > 0 ? (completed / total) * 100 : 0;
+            
+            document.getElementById('progressText').textContent = `${completed}/${total} completed`;
+            document.getElementById('miniProgressFill').style.width = percentage + '%';
+        }
+
+        // Get location for prayer times
+        document.getElementById('getLocationBtn').addEventListener('click', function() {
+            playSound('click');
+            initPrayerTimes(true);
+        });
+    </script>
+</body>
+</html>

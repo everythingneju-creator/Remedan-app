@@ -1,0 +1,27 @@
+{
+  "name": "my-sisters-ramadan",
+  "version": "1.0.0",
+  "description": "A Ramadan companion app - a gift from brother to sisters",
+  "main": "index.html",
+  "scripts": {
+    "android:build": "npx cap sync android && npx cap open android",
+    "android:run": "npx cap run android",
+    "sync": "npx cap sync"
+  },
+  "keywords": [
+    "ramadan",
+    "islamic",
+    "quran",
+    "dua",
+    "prayer"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "@capacitor/android": "^5.5.1",
+    "@capacitor/core": "^5.5.1",
+    "@capacitor/cli": "^5.5.1",
+    "@capacitor/splash-screen": "^5.0.6",
+    "@capacitor/status-bar": "^5.0.6"
+  }
+}

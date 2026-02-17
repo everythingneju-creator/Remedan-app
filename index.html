@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0A0E27">
+    <title>Ramadan 1447 - My Sisters 💓</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/pages.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="entering-page">
+    
+    <!-- Theme Toggle (Hidden on entering page initially) -->
+    <button id="themeToggle" class="theme-toggle" style="display: none;">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Stars Background -->
+    <div class="stars-container" id="starsContainer"></div>
+
+    <!-- Main Content -->
+    <div class="entering-content">
+        <!-- Moon -->
+        <div class="moon-container">
+            <div class="moon"></div>
+        </div>
+
+        <!-- Countdown or Welcome -->
+        <div id="countdownSection" class="countdown-section">
+            <p class="arabic-text bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+            <h1 class="countdown-title">Ramadan Begins In</h1>
+            <div class="countdown-timer" id="countdownTimer">
+                <div class="time-block">
+                    <span class="time-value" id="days">00</span>
+                    <span class="time-label">Days</span>
+                </div>
+                <div class="time-block">
+                    <span class="time-value" id="hours">00</span>
+                    <span class="time-label">Hours</span>
+                </div>
+                <div class="time-block">
+                    <span class="time-value" id="minutes">00</span>
+                    <span class="time-label">Minutes</span>
+                </div>
+                <div class="time-block">
+                    <span class="time-value" id="seconds">00</span>
+                    <span class="time-label">Seconds</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="welcomeSection" class="welcome-section" style="display: none;">
+            <p class="arabic-text bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+            <p class="welcome-text">Welcome to Your Ramadan Journey</p>
+        </div>
+
+        <!-- Enter Button -->
+        <button class="enter-button" id="enterButton">
+            <span class="button-text">ابدأ • Begin</span>
+        </button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data/ayahs.js"></script>
+    <script src="data/duas.js"></script>
+    <script src="data/messages.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/daily-engine.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/app.js"></script>
+    
+    <script>
+        // Initialize entering page
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            initCountdown();
+            
+            // Enter button
+            document.getElementById('enterButton').addEventListener('click', function() {
+                playSound('click');
+                window.location.href = 'home.html';
+            });
+        });
+
+        // Create stars
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            const starCount = 50;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.width = (Math.random() * 3 + 2) + 'px';
+                star.style.height = star.style.width;
+                container.appendChild(star);
+            }
+        }
+
+        // Countdown timer
+        function initCountdown() {
+            const ramadanStart = new Date('2026-02-19T00:00:00'); // Ramadan 1447 starts Feb 28, 2026
+            
+            function updateCountdown() {
+                const now = new Date();
+                const diff = ramadanStart - now;
+                
+                if (diff <= 0) {
+                    // Ramadan has started
+                    document.getElementById('countdownSection').style.display = 'none';
+                    document.getElementById('welcomeSection').style.display = 'block';
+                    return;
+                }
+                
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            }
+            
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        // Sound helper
+        function playSound(soundName) {
+            const audio = new Audio(`assets/sounds/${soundName}.mp3`);
+            audio.play().catch(e => console.log('Sound play failed:', e));
+        }
+    </script>
+</body>
+</html>
