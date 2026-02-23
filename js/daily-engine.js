@@ -3,8 +3,8 @@
    ================================ */
 
 // Ramadan 1447 dates (Feb 28 - Mar 29, 2026)
-const RAMADAN_START = new Date('2026-02-19T00:00:00');
-const RAMADAN_END = new Date('2026-03-20T23:59:59');
+const RAMADAN_START = new Date('2026-02-18T00:00:00');
+const RAMADAN_END = new Date('2026-03-19T23:59:59');
 const TOTAL_DAYS = 30;
 
 // Hijri months

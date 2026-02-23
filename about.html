@@ -11,6 +11,126 @@
     <link rel="stylesheet" href="css/navigation.css">
     <link rel="stylesheet" href="css/pages.css">
     
+    <style>
+        .settings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .setting-btn {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .setting-btn:hover {
+            background: var(--glow-gold);
+            border-color: var(--accent-gold);
+        }
+
+        .setting-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .setting-icon {
+            font-size: 18px;
+            color: var(--accent-gold);
+        }
+
+        .setting-label {
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--bg-primary);
+            border: 2px solid var(--border-subtle);
+            transition: 0.3s;
+            border-radius: 26px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 2px;
+            bottom: 2px;
+            background-color: var(--text-secondary);
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--accent-gold);
+            border-color: var(--accent-gold);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+            background-color: white;
+        }
+
+        .prayer-toggle-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .prayer-toggle-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+
+        .prayer-toggle-item input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--accent-gold);
+        }
+        </style>
+    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -49,8 +169,7 @@
                 This app is a gift for you during the blessed month of Ramadan. May it bring you closer to Allah and fill your days with peace, reflection, and joy.
             </p>
 
-            <!-- Divider -->
-            <div class="about-divider"></div>
+
 
             <!-- Purpose Section -->
             <h3 class="about-subtitle">Purpose</h3>
@@ -59,6 +178,71 @@
                 <p>Spiritual duas</p>
                 <p>Track your worship</p>
                 <p>Loving encouragement</p>
+            </div>
+            
+            <!-- Divider -->
+            <div class="about-divider"></div>
+
+            <!-- Settings Section -->
+            <h3 class="about-subtitle">Settings</h3>
+            <div class="settings-list">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <i class="fas fa-bell setting-icon"></i>
+                        <span class="setting-label">Prayer Notifications</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="adhanToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <button class="setting-item setting-btn" id="configurePrayersBtn">
+                    <div class="setting-info">
+                        <i class="fas fa-cog setting-icon"></i>
+                        <span class="setting-label">Configure Prayers</span>
+                    </div>
+                    <i class="fas fa-chevron-right" style="color: var(--text-muted); font-size: 14px;"></i>
+                </button>
+            </div>
+
+            <!-- Configure Prayers Modal -->
+            <div class="modal-overlay" id="prayersModal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-icon">
+                            <i class="fas fa-mosque"></i>
+                        </div>
+                        <h2 class="modal-title">Prayer Notifications</h2>
+                        <p class="modal-subtitle">Choose which prayers to get notified for</p>
+                    </div>
+                    <div class="modal-body">
+                        <div class="prayer-toggle-list">
+                            <label class="prayer-toggle-item">
+                                <span>Fajr</span>
+                                <input type="checkbox" class="prayer-checkbox" data-prayer="fajr" checked>
+                            </label>
+                            <label class="prayer-toggle-item">
+                                <span>Dhuhr</span>
+                                <input type="checkbox" class="prayer-checkbox" data-prayer="dhuhr" checked>
+                            </label>
+                            <label class="prayer-toggle-item">
+                                <span>Asr</span>
+                                <input type="checkbox" class="prayer-checkbox" data-prayer="asr" checked>
+                            </label>
+                            <label class="prayer-toggle-item">
+                                <span>Maghrib</span>
+                                <input type="checkbox" class="prayer-checkbox" data-prayer="maghrib" checked>
+                            </label>
+                            <label class="prayer-toggle-item">
+                                <span>Isha</span>
+                                <input type="checkbox" class="prayer-checkbox" data-prayer="isha" checked>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="modal-btn modal-btn-confirm" id="savePrayersBtn">Save Settings</button>
+                    </div>
+                </div>
             </div>
 
             <!-- Footer Note -->
@@ -94,12 +278,77 @@
     <script src="js/navigation.js"></script>
     <script src="js/daily-engine.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/notifications.js"></script>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             initTheme();
             highlightActiveNav();
+            setupSettings();
         });
+
+        function setupSettings() {
+            const adhanToggle = document.getElementById('adhanToggle');
+            const configurePrayersBtn = document.getElementById('configurePrayersBtn');
+            const prayersModal = document.getElementById('prayersModal');
+            const savePrayersBtn = document.getElementById('savePrayersBtn');
+
+            // Load current settings
+            adhanToggle.checked = isAdhanEnabled();
+
+            // Toggle Adhan
+            adhanToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    requestNotificationPermission().then(granted => {
+                        if (granted) {
+                            localStorage.setItem('adhan_enabled', 'true');
+                            schedulePrayerNotifications();
+                            showToast('✅ Prayer notifications enabled');
+                        } else {
+                            this.checked = false;
+                            showToast('❌ Permission denied');
+                        }
+                    });
+                } else {
+                    localStorage.setItem('adhan_enabled', 'false');
+                    showToast('🔕 Prayer notifications disabled');
+                }
+            });
+
+            // Configure prayers
+            configurePrayersBtn.addEventListener('click', function() {
+                const settings = getAdhanSettings();
+                document.querySelectorAll('.prayer-checkbox').forEach(checkbox => {
+                    const prayer = checkbox.dataset.prayer;
+                    checkbox.checked = settings[prayer];
+                });
+                prayersModal.style.display = 'flex';
+                setTimeout(() => prayersModal.classList.add('active'), 10);
+            });
+
+            // Save prayers
+            savePrayersBtn.addEventListener('click', function() {
+                const settings = {};
+                document.querySelectorAll('.prayer-checkbox').forEach(checkbox => {
+                    settings[checkbox.dataset.prayer] = checkbox.checked;
+                });
+                saveAdhanSettings(settings);
+                prayersModal.classList.remove('active');
+                setTimeout(() => prayersModal.style.display = 'none', 300);
+                showToast('✅ Prayer settings saved');
+                if (isAdhanEnabled()) {
+                    schedulePrayerNotifications();
+                }
+            });
+
+            // Close modal on outside click
+            prayersModal.addEventListener('click', function(e) {
+                if (e.target === prayersModal) {
+                    prayersModal.classList.remove('active');
+                    setTimeout(() => prayersModal.style.display = 'none', 300);
+                }
+            });
+        }
     </script>
 </body>
 </html>

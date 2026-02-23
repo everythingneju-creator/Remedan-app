@@ -81,7 +81,7 @@ function calculatePrayerTimes(lat, lng, city, country) {
     times.fajr = formatPrayerTime(sunrise - 1.5); // 1.5 hours before sunrise
     times.sunrise = formatPrayerTime(sunrise);
     times.dhuhr = formatPrayerTime(12 - lng / 15 + 3); // Solar noon
-    times.asr = formatPrayerTime(12 - lng / 15 + 3 + 3.5); // Afternoon
+    times.asr = formatPrayerTime(12 - lng / 15 + 3 + 5.5); // Afternoon
     times.maghrib = formatPrayerTime(sunset);
     times.isha = formatPrayerTime(sunset + 1.5); // 1.5 hours after sunset
     

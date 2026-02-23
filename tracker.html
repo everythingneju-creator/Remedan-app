@@ -190,6 +190,199 @@
         .success-animation {
             animation: successPulse 0.5s ease;
         }
+        
+        /* Task Options Button */
+        .task-options-btn {
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .task-options-btn:hover {
+            background: var(--glow-gold);
+            color: var(--accent-gold);
+        }
+
+        .task-options-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Task Options Overlay */
+        .task-options-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 14, 39, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 9997;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .task-options-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Task Options Menu */
+        .task-options-menu {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border-radius: 20px 20px 0 0;
+            padding: 24px;
+            box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.3);
+            border-top: 2px solid var(--border-subtle);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: 9998;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .task-options-menu.active {
+            transform: translateY(0);
+        }
+
+        .task-options-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .task-options-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .task-options-close {
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .task-options-close:hover {
+            background: var(--glow-gold);
+            color: var(--text-primary);
+        }
+
+        .task-options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .task-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: transparent;
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            text-align: left;
+        }
+
+        .task-option:hover {
+            background: var(--glow-gold);
+            border-color: var(--accent-gold);
+        }
+
+        .task-option:active {
+            transform: scale(0.98);
+        }
+
+        .task-option-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+
+        .task-option-icon.gold {
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--accent-gold);
+        }
+
+        .task-option-icon.red {
+            background: rgba(255, 68, 68, 0.15);
+            color: #ff4444;
+        }
+
+        .task-option-icon.teal {
+            background: rgba(74, 155, 155, 0.15);
+            color: var(--accent-teal);
+        }
+
+        .task-option-content {
+            flex: 1;
+        }
+
+        .task-option-label {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .task-option-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Time Picker Input */
+        .time-picker-input {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-subtle);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: var(--font-english);
+            transition: all 0.3s ease;
+        }
+
+        .time-picker-input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 4px var(--glow-gold);
+        }
     </style>
 </head>
 <body>
@@ -241,6 +434,120 @@
 
     </div>
 
+    <!-- Task Options Overlay & Menu (OUTSIDE page-container) -->
+    <div class="task-options-overlay" id="taskOptionsOverlay"></div>
+    <div class="task-options-menu" id="taskOptionsMenu">
+        <div class="task-options-header">
+            <h3 class="task-options-title" id="taskOptionsTitle">Task Options</h3>
+            <button class="task-options-close" id="taskOptionsClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="task-options-list">
+            <button class="task-option" id="optionSetTime" type="button">
+                <div class="task-option-icon gold">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="task-option-content">
+                    <div class="task-option-label">Set Time</div>
+                    <div class="task-option-desc">Set a reminder time</div>
+                </div>
+            </button>
+            
+            <button class="task-option" id="optionRename" type="button">
+                <div class="task-option-icon gold">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <div class="task-option-content">
+                    <div class="task-option-label">Rename</div>
+                    <div class="task-option-desc">Change task name</div>
+                </div>
+            </button>
+            
+            <button class="task-option" id="optionCopy" type="button">
+                <div class="task-option-icon teal">
+                    <i class="fas fa-copy"></i>
+                </div>
+                <div class="task-option-content">
+                    <div class="task-option-label">Copy</div>
+                    <div class="task-option-desc">Duplicate this task</div>
+                </div>
+            </button>
+            
+            <button class="task-option" id="optionDelete" type="button">
+                <div class="task-option-icon red">
+                    <i class="fas fa-trash"></i>
+                </div>
+                <div class="task-option-content">
+                    <div class="task-option-label">Delete</div>
+                    <div class="task-option-desc">Remove this task</div>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Time Picker Modal -->
+    <div class="modal-overlay" id="timePickerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h2 class="modal-title">Set Reminder Time</h2>
+                <p class="modal-subtitle" id="timePickerTaskName">Task Name</p>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label class="input-label" for="timePickerInput">TIME</label>
+                    <input 
+                        type="time" 
+                        id="timePickerInput" 
+                        class="time-picker-input"
+                    >
+                </div>
+                <div class="input-group" style="margin-top: 16px;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="timePickerRepeat" checked style="width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent-gold);">
+                        <span style="font-size: 14px; color: var(--text-secondary);">Repeat daily</span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-cancel" id="cancelTimeBtn" type="button">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="confirmTimeBtn" type="button">Set Reminder</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rename Modal -->
+    <div class="modal-overlay" id="renameModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <h2 class="modal-title">Rename Task</h2>
+                <p class="modal-subtitle">Enter new name for this task</p>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label class="input-label" for="renameInput">NEW NAME</label>
+                    <input 
+                        type="text" 
+                        id="renameInput" 
+                        class="input-field" 
+                        placeholder="Enter task name"
+                        maxlength="50"
+                    >
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-cancel" id="cancelRenameBtn" type="button">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="confirmRenameBtn" type="button">Save</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Add Task Modal -->
     <div class="modal-overlay" id="addTaskModal">
         <div class="modal-content">
@@ -264,8 +571,8 @@
                 </div>
             </div>
             <div class="modal-actions">
-                <button class="modal-btn modal-btn-cancel" id="cancelTaskBtn">Cancel</button>
-                <button class="modal-btn modal-btn-confirm" id="confirmTaskBtn">Add Task</button>
+                <button class="modal-btn modal-btn-cancel" id="cancelTaskBtn" type="button">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="confirmTaskBtn" type="button">Add Task</button>
             </div>
         </div>
     </div>
@@ -299,20 +606,49 @@
     <script src="js/tracker.js"></script>
     <script src="js/theme.js"></script>
     <script src="js/navigation.js"></script>
+    <script src="js/notifications.js"></script>
     <script src="js/app.js"></script>
     
     <script>
+        // Global variables
+        let currentTaskId = null;
+        let currentTaskName = '';
+
+        // Initialize everything when page loads
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('=== Tracker Page Loading ===');
+            
             initTheme();
             initTrackerPage();
             highlightActiveNav();
             setupModal();
+            setupTaskOptionsMenu();
+            setupTimePickerModal();
+            setupRenameModal();
             
             const dayInfo = getCurrentRamadanDay();
-            document.getElementById('daySubtitle').textContent = dayInfo.dayText;
+            const subtitle = document.getElementById('daySubtitle');
+            if (subtitle) {
+                subtitle.textContent = dayInfo.dayText;
+            }
+            
+            // Initialize notifications after a delay
+            setTimeout(() => {
+                if (typeof initNotifications === 'function') {
+                    console.log('Initializing notifications...');
+                    initNotifications();
+                } else {
+                    console.error('initNotifications not found!');
+                }
+            }, 1000);
+            
+            console.log('=== Tracker Page Loaded ===');
         });
 
+        // Initialize tracker page
         function initTrackerPage() {
+            console.log('Initializing tracker page...');
+            
             const progress = getTodayProgress();
             renderTrackerItems(progress);
             updateProgressCircle(progress);
@@ -325,7 +661,9 @@
                         const newProgress = resetTodayTracker();
                         renderTrackerItems(newProgress);
                         updateProgressCircle(newProgress);
-                        showToast('Tracker reset for today');
+                        if (typeof showToast === 'function') {
+                            showToast('Tracker reset for today');
+                        }
                     }
                 });
             }
@@ -339,18 +677,19 @@
             }
         }
 
+        // Setup add task modal
         function setupModal() {
             const modal = document.getElementById('addTaskModal');
             const input = document.getElementById('taskNameInput');
             const cancelBtn = document.getElementById('cancelTaskBtn');
             const confirmBtn = document.getElementById('confirmTaskBtn');
 
-            // Cancel button
+            if (!modal || !input || !cancelBtn || !confirmBtn) return;
+
             cancelBtn.addEventListener('click', function() {
                 closeAddTaskModal();
             });
 
-            // Confirm button
             confirmBtn.addEventListener('click', function() {
                 const taskName = input.value.trim();
                 if (taskName) {
@@ -359,8 +698,12 @@
                     renderTrackerItems(newProgress);
                     updateProgressCircle(newProgress);
                     closeAddTaskModal();
-                    showToast('✨ Task added successfully!');
-                    playSound('completion');
+                    if (typeof showToast === 'function') {
+                        showToast('✨ Task added successfully!');
+                    }
+                    if (typeof playSound === 'function') {
+                        playSound('completion');
+                    }
                 } else {
                     input.focus();
                     input.style.borderColor = '#ff4444';
@@ -370,21 +713,18 @@
                 }
             });
 
-            // Enter key to confirm
             input.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     confirmBtn.click();
                 }
             });
 
-            // Click outside to close
             modal.addEventListener('click', function(e) {
                 if (e.target === modal) {
                     closeAddTaskModal();
                 }
             });
 
-            // Escape key to close
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && modal.classList.contains('active')) {
                     closeAddTaskModal();
@@ -396,31 +736,391 @@
             const modal = document.getElementById('addTaskModal');
             const input = document.getElementById('taskNameInput');
             
+            if (!modal || !input) return;
+            
             modal.classList.add('active');
             input.value = '';
             input.focus();
-            playSound('click');
-            
-            // Prevent body scroll
+            if (typeof playSound === 'function') {
+                playSound('click');
+            }
             document.body.style.overflow = 'hidden';
         }
 
         function closeAddTaskModal() {
             const modal = document.getElementById('addTaskModal');
-            modal.classList.remove('active');
-            playSound('click');
+            if (!modal) return;
             
-            // Restore body scroll
+            modal.classList.remove('active');
+            if (typeof playSound === 'function') {
+                playSound('click');
+            }
             document.body.style.overflow = '';
         }
 
+        // Setup task options menu
+        function setupTaskOptionsMenu() {
+            console.log('Setting up task options menu...');
+            
+            const overlay = document.getElementById('taskOptionsOverlay');
+            const menu = document.getElementById('taskOptionsMenu');
+            const closeBtn = document.getElementById('taskOptionsClose');
+
+            if (!overlay || !menu || !closeBtn) {
+                console.error('Menu elements not found!');
+                return;
+            }
+
+            function closeMenu() {
+                console.log('Closing menu');
+                menu.classList.remove('active');
+                overlay.classList.remove('active');
+                setTimeout(() => {
+                    currentTaskId = null;
+                    currentTaskName = '';
+                }, 300);
+            }
+
+            closeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                closeMenu();
+            });
+            
+            overlay.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                closeMenu();
+            });
+
+            // Set Time option
+            const setTimeBtn = document.getElementById('optionSetTime');
+            if (setTimeBtn) {
+                setTimeBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Set time clicked for task:', currentTaskId);
+                    const taskId = currentTaskId;
+                    closeMenu();
+                    setTimeout(() => {
+                        currentTaskId = taskId;
+                        openTimePickerModal();
+                    }, 100);
+                });
+            }
+
+            // Rename option
+            const renameBtn = document.getElementById('optionRename');
+            if (renameBtn) {
+                renameBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Rename clicked for task:', currentTaskId);
+                    const taskId = currentTaskId;
+                    closeMenu();
+                    setTimeout(() => {
+                        currentTaskId = taskId;
+                        openRenameModal();
+                    }, 100);
+                });
+            }
+
+            // Copy option
+            const copyBtn = document.getElementById('optionCopy');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Copy clicked for task:', currentTaskId);
+                    const taskIdToCopy = currentTaskId;
+                    closeMenu();
+                    setTimeout(() => copyTask(taskIdToCopy), 100);
+                });
+            }
+
+            // Delete option
+            const deleteBtn = document.getElementById('optionDelete');
+            if (deleteBtn) {
+                deleteBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Delete clicked for task:', currentTaskId);
+                    const taskIdToDelete = currentTaskId;
+                    closeMenu();
+                    setTimeout(() => deleteTask(taskIdToDelete), 100);
+                });
+            }
+            
+            console.log('Task options menu setup complete');
+        }
+
+        // Open task options menu
+        function openTaskOptionsMenu(taskId, taskName) {
+            console.log('Opening task options menu for:', taskName, taskId);
+            
+            currentTaskId = taskId;
+            currentTaskName = taskName;
+            
+            const menu = document.getElementById('taskOptionsMenu');
+            const overlay = document.getElementById('taskOptionsOverlay');
+            const title = document.getElementById('taskOptionsTitle');
+            
+            if (!menu || !overlay) {
+                console.error('Menu or overlay not found');
+                return;
+            }
+            
+            if (title) {
+                title.textContent = taskName;
+            }
+            
+            menu.classList.add('active');
+            overlay.classList.add('active');
+            
+            if (typeof playSound === 'function') {
+                playSound('click');
+            }
+        }
+
+        // Setup time picker modal
+        function setupTimePickerModal() {
+            const modal = document.getElementById('timePickerModal');
+            const input = document.getElementById('timePickerInput');
+            const cancelBtn = document.getElementById('cancelTimeBtn');
+            const confirmBtn = document.getElementById('confirmTimeBtn');
+
+            if (!modal || !input || !cancelBtn || !confirmBtn) return;
+
+            cancelBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                modal.classList.remove('active');
+            });
+
+            confirmBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const time = input.value;
+                if (time && currentTaskId) {
+                    const progress = getTodayProgress();
+                    const task = progress.items.find(i => i.id === currentTaskId);
+                    if (task) {
+                        if (typeof setTaskReminder === 'function') {
+                            setTaskReminder(currentTaskId, task.name, time);
+                        } else {
+                            alert('⏰ Reminder set for ' + time);
+                        }
+                    }
+                }
+                modal.classList.remove('active');
+            });
+
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        }
+
+        // Open time picker modal
+        function openTimePickerModal() {
+            console.log('Opening time picker for task:', currentTaskId);
+            
+            const progress = getTodayProgress();
+            const task = progress.items.find(i => i.id === currentTaskId);
+            
+            if (!task) {
+                console.error('Task not found:', currentTaskId);
+                return;
+            }
+
+            const modal = document.getElementById('timePickerModal');
+            const taskNameEl = document.getElementById('timePickerTaskName');
+            const input = document.getElementById('timePickerInput');
+
+            if (!modal || !input) return;
+
+            if (taskNameEl) {
+                taskNameEl.textContent = task.name;
+            }
+            
+            if (typeof getTaskReminders === 'function') {
+                const reminders = getTaskReminders();
+                if (reminders[currentTaskId]) {
+                    input.value = reminders[currentTaskId].time;
+                } else {
+                    const now = new Date();
+                    input.value = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+                }
+            } else {
+                const now = new Date();
+                input.value = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            }
+
+            modal.classList.add('active');
+            setTimeout(() => input.focus(), 100);
+        }
+
+        // Setup rename modal
+        function setupRenameModal() {
+            const modal = document.getElementById('renameModal');
+            const input = document.getElementById('renameInput');
+            const cancelBtn = document.getElementById('cancelRenameBtn');
+            const confirmBtn = document.getElementById('confirmRenameBtn');
+
+            if (!modal || !input || !cancelBtn || !confirmBtn) return;
+
+            cancelBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                modal.classList.remove('active');
+            });
+
+            confirmBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const newName = input.value.trim();
+                if (newName && currentTaskId) {
+                    renameTask(currentTaskId, newName);
+                }
+                modal.classList.remove('active');
+            });
+
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    confirmBtn.click();
+                }
+            });
+
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        }
+
+        // Open rename modal
+        function openRenameModal() {
+            console.log('Opening rename modal for task:', currentTaskId);
+            
+            const progress = getTodayProgress();
+            const task = progress.items.find(i => i.id === currentTaskId);
+            
+            if (!task) {
+                console.error('Task not found:', currentTaskId);
+                return;
+            }
+
+            const modal = document.getElementById('renameModal');
+            const input = document.getElementById('renameInput');
+
+            if (!modal || !input) return;
+
+            input.value = task.name;
+            modal.classList.add('active');
+            setTimeout(() => {
+                input.focus();
+                input.select();
+            }, 100);
+        }
+
+        // Rename task
+        function renameTask(taskId, newName) {
+            console.log('Renaming task:', taskId, 'to:', newName);
+            
+            const progress = getTodayProgress();
+            const task = progress.items.find(i => i.id === taskId);
+            
+            if (task) {
+                task.name = newName;
+                setStorageData(STORAGE_KEYS.TRACKER_DATA, progress);
+                
+                if (task.type === 'custom') {
+                    const customTasks = getCustomTasks();
+                    const customTask = customTasks.find(t => t.id === task.customId);
+                    if (customTask) {
+                        customTask.name = newName;
+                        saveCustomTasks(customTasks);
+                    }
+                }
+                
+                renderTrackerItems(progress);
+                
+                if (typeof showToast === 'function') {
+                    showToast('✏️ Task renamed successfully');
+                }
+                if (typeof playSound === 'function') {
+                    playSound('completion');
+                }
+            }
+        }
+
+        // Copy task
+        function copyTask(taskId) {
+            console.log('Copying task:', taskId);
+            
+            const progress = getTodayProgress();
+            const task = progress.items.find(i => i.id === taskId);
+            
+            if (task) {
+                const copyName = `${task.name} (Copy)`;
+                addCustomTask(copyName);
+                
+                const newProgress = getTodayProgress();
+                renderTrackerItems(newProgress);
+                updateProgressCircle(newProgress);
+                
+                if (typeof showToast === 'function') {
+                    showToast('📋 Task copied successfully');
+                }
+                if (typeof playSound === 'function') {
+                    playSound('completion');
+                }
+            }
+        }
+
+        // Delete task
+        function deleteTask(taskId) {
+            console.log('Deleting task:', taskId);
+            
+            const progress = getTodayProgress();
+            const task = progress.items.find(i => i.id === taskId);
+            
+            if (!task) return;
+
+            if (confirm(`Delete "${task.name}"?`)) {
+                progress.items = progress.items.filter(i => i.id !== taskId);
+                setStorageData(STORAGE_KEYS.TRACKER_DATA, progress);
+                
+                if (task.type === 'custom') {
+                    deleteCustomTask(task.customId);
+                }
+                
+                if (typeof getTaskReminders === 'function') {
+                    const reminders = getTaskReminders();
+                    if (reminders[taskId]) {
+                        delete reminders[taskId];
+                        localStorage.setItem('task_reminders', JSON.stringify(reminders));
+                    }
+                }
+                
+                renderTrackerItems(progress);
+                updateProgressCircle(progress);
+                
+                if (typeof showToast === 'function') {
+                    showToast('🗑️ Task deleted');
+                }
+                if (typeof playSound === 'function') {
+                    playSound('click');
+                }
+            }
+        }
+
+        // Render tracker items
         function renderTrackerItems(progress) {
+            console.log('Rendering tracker items...');
+            
             const container = document.getElementById('trackerItems');
             if (!container) return;
             
             container.innerHTML = '';
             
-            // Sort items by order
             const sortedItems = progress.items.sort((a, b) => a.order - b.order);
             
             sortedItems.forEach(item => {
@@ -437,62 +1137,67 @@
                     <div class="item-progress-bar">
                         <div class="item-progress-fill" style="width: ${percentage}%"></div>
                     </div>
-                    ${item.type === 'custom' ? `<button class="delete-item-btn" data-id="${item.customId}"><i class="fas fa-times"></i></button>` : ''}
+                    <button class="task-options-btn" data-id="${item.id}" data-name="${item.name}" type="button">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
                 `;
                 
                 container.appendChild(itemEl);
                 
                 // Add click listener to checkbox
                 const checkbox = itemEl.querySelector('.tracker-checkbox');
-                checkbox.addEventListener('click', function() {
-                    const newProgress = toggleTrackerItem(item.id);
-                    if (newProgress) {
-                        renderTrackerItems(newProgress);
-                        updateProgressCircle(newProgress);
-                    }
-                });
-                
-                // Add delete listener for custom tasks
-                if (item.type === 'custom') {
-                    const deleteBtn = itemEl.querySelector('.delete-item-btn');
-                    deleteBtn.addEventListener('click', function(e) {
+                if (checkbox) {
+                    checkbox.addEventListener('click', function(e) {
+                        e.preventDefault();
                         e.stopPropagation();
-                        if (confirm('Delete this task?')) {
-                            deleteCustomTask(item.customId);
-                            const newProgress = getTodayProgress();
+                        const newProgress = toggleTrackerItem(item.id);
+                        if (newProgress) {
                             renderTrackerItems(newProgress);
                             updateProgressCircle(newProgress);
-                            showToast('Task deleted');
                         }
                     });
                 }
+                
+                // Add click listener to options button
+                const optionsBtn = itemEl.querySelector('.task-options-btn');
+                if (optionsBtn) {
+                    optionsBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('3-dot clicked for:', item.name);
+                        openTaskOptionsMenu(item.id, item.name);
+                    });
+                }
             });
+            
+            console.log('Rendered', sortedItems.length, 'items');
         }
 
+        // Update progress circle
         function updateProgressCircle(progress) {
             const total = progress.items.length;
             const completed = progress.items.filter(item => item.completed).length;
             const percentage = total > 0 ? (completed / total) * 100 : 0;
             
-            // Update circle
             const circle = document.getElementById('progressCircle');
             if (circle) {
-                const circumference = 2 * Math.PI * 60; // radius = 60
+                const circumference = 2 * Math.PI * 60;
                 const offset = circumference - (percentage / 100) * circumference;
                 circle.style.strokeDashoffset = offset;
             }
             
-            // Update text
             const numberEl = document.getElementById('progressNumber');
             if (numberEl) {
                 numberEl.textContent = `${completed}/${total}`;
                 
-                // Success animation when all completed
                 if (completed === total && total > 0) {
-                    numberEl.parentElement.classList.add('success-animation');
-                    setTimeout(() => {
-                        numberEl.parentElement.classList.remove('success-animation');
-                    }, 500);
+                    const parent = numberEl.parentElement;
+                    if (parent) {
+                        parent.classList.add('success-animation');
+                        setTimeout(() => {
+                            parent.classList.remove('success-animation');
+                        }, 500);
+                    }
                 }
             }
         }

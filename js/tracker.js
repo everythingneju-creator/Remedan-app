@@ -135,3 +135,36 @@ function resetTodayTracker() {
 
 // Initialize tracker page (REMOVED - moved to HTML)
 // This function is no longer needed as we handle it in tracker.html
+
+// Reset today's tracker (FIXED VERSION)
+function resetTodayTracker() {
+    const today = new Date().toDateString();
+    const newTracker = {
+        date: today,
+        items: DEFAULT_TRACKER_ITEMS.map(item => ({
+            ...item,
+            completed: false
+        }))
+    };
+    
+    // Add custom tasks
+    const customTasks = getCustomTasks();
+    customTasks.forEach((task, index) => {
+        newTracker.items.push({
+            id: `custom_${task.id}`,
+            name: task.name,
+            type: 'custom',
+            order: 100 + index,
+            completed: false,
+            customId: task.id
+        });
+    });
+    
+    setStorageData(STORAGE_KEYS.TRACKER_DATA, newTracker);
+    
+    if (typeof playSound === 'function') {
+        playSound('click');
+    }
+    
+    return newTracker;
+}

@@ -16,10 +16,10 @@ function checkAndResetTracker() {
     const today = new Date().toDateString();
     
     if (lastDate !== today) {
-        // New day - reset tracker
+        // New day - reset tracker but keep custom tasks
         const dayInfo = getCurrentRamadanDay();
         if (dayInfo.isRamadan) {
-            resetTodayTracker();
+            // Don't call resetTodayTracker here - let tracker.js handle it
             localStorage.setItem('lastTrackerDate', today);
         }
     }
